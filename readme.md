@@ -26,7 +26,7 @@ Options should be input through cli like so:
 
 `-o POST,PUT,GET`
 
-If you want commas in the options: `-o {"POST,", "PUT,", "GET,"`
+If you want commas in the options: `-o {"POST,", "PUT,", "GET,"}`
 
 If you want to enumerate a through z or 0 through 9 with length of 2: `-o [az]{2}`
 
@@ -35,8 +35,10 @@ When inputting options through a file one set of options should be a single line
 POST,PUT,GET
 ---
 http://httpstat.us/200,http://google.com
+---
+{"POST,", "PUT,", "GET,"}
 ```
-And of course if you input 2 sets of options, you must have two %o's in the commmand.
+And of course you must have the same amount of option sets and %o's in your command.
 
 ## Example
 `enum -c "echo %o" -o "[az]{2}"`
