@@ -20,3 +20,16 @@ Arguments:
   -f  --file         Output file, if not defined command outputs will be
                      printed to stdout
 ```
+
+## Formatting
+Options should be input through cli like so:
+
+`-o POST,PUT,GET`
+
+If you want commas in the options: `-o {"POST,", "PUT,", "GET,"`
+
+If you want to enumerate a through z or 0 through 9 with length of 2: `-o [az]{2}`
+
+## Example
+`enum -c "echo %o" -o "[az]{2}"`
+This will echo all 676 combinations of letters a through z.

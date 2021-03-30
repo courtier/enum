@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 
 	"github.com/akamensky/argparse"
@@ -101,6 +102,35 @@ func main() {
 				option = option[1 : len(option)-1]
 				newArr := strings.Split(option, ", ")
 				actualOptions = append(actualOptions, newArr)
+			} else if option[0] == '[' && option[len(option)-1] == '}' {
+				varLength := strings.Split(strings.Split(option, "{")[1], "}")[0]
+				lengths := []int{}
+				if strings.Contains(varLength, ",") {
+					for _, newLength := range strings.Split(varLength, ",") {
+						length, err := strconv.Atoi(newLength)
+						if err != nil {
+							log.Fatal("Error processing option.")
+						}
+						lengths = append(lengths, length)
+					}
+				} else {
+					length, err := strconv.Atoi(varLength)
+					if err != nil {
+						log.Fatal("Error processing option.")
+					}
+					lengths = append(lengths, length)
+				}
+				if len(lengths) > 0 {
+					for _, setLength := range lengths {
+						if strings.Contains(option, "az") {
+							actualOptions = append(actualOptions, generateSetLength(setLength, smallAZ))
+						} else if strings.Contains(option, "AZ") {
+							actualOptions = append(actualOptions, generateSetLength(setLength, capitalAZ))
+						} else if strings.Contains(option, "09") {
+							actualOptions = append(actualOptions, generateSetLength(setLength, numbersZeroNine))
+						}
+					}
+				}
 			} else {
 				actualOptions = append(actualOptions, strings.Split(option, ","))
 			}
@@ -155,9 +185,9 @@ func main() {
 	var saveResults strings.Builder
 	for result := range results {
 		if outputFile == "" {
-			fmt.Println(result + "\n====================\n\n")
+			fmt.Println(result)
 		} else {
-			saveResults.WriteString(result + "\n====================\n\n")
+			saveResults.WriteString(result)
 		}
 		doneCounter++
 		if doneCounter == workAmount {
@@ -171,7 +201,6 @@ func main() {
 			log.Fatal("Error saving results to file. ", err)
 		}
 	}
-	fmt.Println("Done.")
 }
 
 func worker(jobs, results chan string) {
@@ -203,14 +232,6 @@ func appendStringToFile(fileName string, line string, overwrite bool) error {
 	}
 	file.Sync()
 	return nil
-}
-
-func generateStrings(length int, source []string) (output []string) {
-	output = []string{}
-	for i := 0; i < length; i++ {
-
-	}
-	return
 }
 
 func generateSetLength(length int, source []string) []string {
