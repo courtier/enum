@@ -1,5 +1,7 @@
 # enum - command options enumerator
 
+Download: `go install github.com/courtier/enum@0.0.1` or you can download one of the binaries
+
 ```
 usage: enum [-h|--help] [-o|--options "<value>" [-o|--options "<value>" ...]]
             [-i|--option-file "<value>"] [-t|--threads <integer>] -c|--cmd
