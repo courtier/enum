@@ -42,6 +42,8 @@ http://httpstat.us/200,http://google.com
 ```
 And of course you must have the same amount of option sets and %o's in your command.
 
+All `%-o`s will be replaced with literal `%o`.
+
 ## Example
 `enum -c "echo %o" -o "[az]{2}"`
 This will echo all 676 combinations of letters a through z.

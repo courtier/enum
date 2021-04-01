@@ -177,6 +177,7 @@ func main() {
 	}
 
 	for i := 0; i < workAmount; i++ {
+		workCommands[i] = strings.ReplaceAll(workCommands[i], "%-o", "%o")
 		jobs <- workCommands[i]
 	}
 	close(jobs)
